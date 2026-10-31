@@ -83,6 +83,7 @@
 
   <nav id="nav">
     <button data-tab="overview" class="active">📋 总览</button>
+    <button data-tab="census">🔍 全量房源普查</button>
     <button data-tab="jiulong">🏡 九龙山庄·瀛洲苑</button>
     <button data-tab="compare">🗺️ 周边别墅对比</button>
     <button data-tab="rent">💰 租金行情</button>
@@ -118,6 +119,34 @@
       <div class="note-box">
         <b>瀛洲苑：</b>为九龙山庄内部组团（浙电系统相关），贝壳等平台未单独建库，其房源并入「九龙山庄」主小区挂牌统计——即瀛洲苑的在售/在租房源包含在上表 65+ 套在售、6 套整租样本之中。需要逐套定位瀛洲苑房源，须登录贝壳 App 按组团名筛选（本页预留补充通道）。
       </div>
+    </div>
+  </section>
+
+  <!-- 全量房源普查 -->
+  <section class="tab" id="tab-census">
+    <div class="cards" id="kpi-census"></div>
+    <div class="grid2">
+      <div class="panel">
+        <h3>各小区在售套数与中位单价</h3>
+        <div class="desc">房天下移动端分价格带全量抓取（2026-10-31），已剔除跨小区推荐房源并全局去重</div>
+        <div class="chart" id="ch-census-bar"></div>
+      </div>
+      <div class="panel">
+        <h3>全量挂牌单价分布</h3>
+        <div class="desc">388 套挂牌单价直方图（元/㎡）· 中位 <b id="census-median"></b>，P25–P75 区间标注</div>
+        <div class="chart" id="ch-census-hist"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>全量房源 · 面积 × 单价散点</h3>
+      <div class="desc">按小区着色 · 每点为一套在售房源 · 可直观看到各小区产品带</div>
+      <div class="chart tall" id="ch-census-scatter"></div>
+    </div>
+    <div class="panel">
+      <h3>全部在售房源明细<span class="tag hl">点击表头排序</span><span class="tag blue" id="census-count-tag"></span></h3>
+      <div class="filterbar" id="census-filter"></div>
+      <div class="scrollx"><table id="tbl-census"></table></div>
+      <div class="note-box" style="margin-top:10px"><b>覆盖说明：</b>本普查通过房天下移动端「分价格带并集抓取」突破单页 30 条上限，覆盖 8 个主力别墅小区共 <b>388 套</b>在售（占杭州近郊别墅公开挂牌的主力库存）。贝壳系平台（贝壳/链家）需登录无法逐套抓取——例如九龙山庄贝壳口径在售 65–67 套（含洋房），房天下口径为 7 套别墅，两平台房源池不同，本表为房天下全量。别墅<b>租赁</b>盘在公开网络极稀缺（8 小区仅公开可见约 15 个整租样本，见「租金行情」标签），如需租赁全量需登录贝壳 App 按小区筛选。</div>
     </div>
   </section>
 
@@ -256,7 +285,7 @@
 </div>
 
 <script>
-const state = { meta: null, jiulong: null, compare: null, market: null, plateFilter: "全部", charts: {} };
+const state = { meta: null, jiulong: null, compare: null, market: null, census: null, plateFilter: "全部", censusFilter: "全部", charts: {} };
 const fmt = n => n == null ? "—" : Number(n).toLocaleString("zh-CN");
 const charts = [];
 function initChart(id) { const el = document.getElementById(id); if (!el || !window.echarts) return null; const c = echarts.init(el); charts.push(c); return c; }
@@ -493,6 +522,90 @@ function renderRent() {
     r => `<tr><td><b style="color:${r[0].includes("九龙山庄") ? "var(--gold)" : "var(--text)"}">${r[0]}</b></td><td style="color:var(--muted)">${r[1]}</td><td>${r[2]}</td><td class="num">${r[3] ?? "—"}</td><td class="num"><b>${fmt(r[4])}</b></td><td class="num">${r[5] ?? "—"}</td></tr>`);
 }
 
+function renderCensus() {
+  const c = state.census;
+  document.getElementById("census-median").textContent = fmt(c.overall.medianUnitPrice) + " 元/㎡（P25 " + fmt(c.overall.unitPriceP25) + " – P75 " + fmt(c.overall.unitPriceP75) + "）";
+  document.getElementById("kpi-census").innerHTML = [
+    { l: "在售房源总量", v: fmt(c.totalCount), u: "套", f: "8 个主力别墅小区 · 房天下全量", cls: "gold" },
+    { l: "挂牌总货值", v: c.totalValueYi.toFixed(2), u: "亿元", f: "388 套挂牌总价合计", cls: "gold" },
+    { l: "全盘中位单价", v: fmt(c.overall.medianUnitPrice), u: "元/㎡", f: "P25–P75: " + fmt(c.overall.unitPriceP25) + "–" + fmt(c.overall.unitPriceP75), cls: "" },
+    { l: "全盘中位总价", v: fmt(c.overall.medianTotalWan), u: "万元", f: "区间跨度极大（60 万洋房 – 4500 万独栋）", cls: "blue" },
+    { l: "覆盖小区", v: "8", u: "个", f: "银湖4 · 之江1 · 闲林1 · 良渚1 · 青山湖1", cls: "" },
+    { l: "在租样本（公开）", v: "15", u: "套", f: "别墅租盘公开网络稀缺，详见租金标签", cls: "" },
+  ].map(k => `<div class="kpi"><div class="label">${k.l}</div><div class="value ${k.cls}">${k.v}<span style="font-size:12px;color:var(--muted);font-weight:400"> ${k.u}</span></div><div class="foot">${k.f}</div></div>`).join("");
+
+  const bar = initChart("ch-census-bar");
+  if (bar) {
+    const s = [...c.summary].sort((a, b) => b.count - a.count);
+    bar.setOption({
+      grid: { left: 8, right: 56, top: 26, bottom: 10, containLabel: true },
+      legend: { textStyle: { color: "#8b98a5" }, top: 0, data: ["在售套数", "中位单价(元/㎡)"] },
+      tooltip: { ...TIP, trigger: "axis" },
+      xAxis: { type: "value", ...AXIS },
+      yAxis: { type: "category", ...AXIS, splitLine: { show: false }, inverse: true, data: s.map(x => x.community), axisLabel: { color: "#c4cdd6" } },
+      series: [
+        { name: "在售套数", type: "bar", barWidth: 13, data: s.map(x => x.count), itemStyle: { color: GREEN, borderRadius: [0, 4, 4, 0] }, label: { show: true, position: "right", color: "#8b98a5", fontSize: 10, formatter: p => p.value + "套" } },
+        { name: "中位单价(元/㎡)", type: "scatter", data: s.map(x => [x.medianUnitPrice, x.community]), symbolSize: 12, itemStyle: { color: GOLD }, label: { show: true, position: "right", color: GOLD, fontSize: 10, formatter: p => fmt(p.value[0]) } },
+      ]
+    });
+  }
+
+  const hist = initChart("ch-census-hist");
+  if (hist) {
+    const ups = c.listings.filter(r => r.unitPrice).map(r => r.unitPrice);
+    const bins = {}, step = 5000;
+    ups.forEach(u => { const b = Math.min(Math.floor(u / step) * step, 90000); bins[b] = (bins[b] || 0) + 1; });
+    const keys = Object.keys(bins).map(Number).sort((a, b) => a - b);
+    hist.setOption({
+      grid: { left: 8, right: 16, top: 20, bottom: 10, containLabel: true },
+      tooltip: { ...TIP, formatter: p => `${p[0].name} 元/㎡：<b>${p[0].value}</b> 套` },
+      xAxis: { type: "category", ...AXIS, data: keys.map(k => k >= 90000 ? "9万+" : (k / 10000).toFixed(0) + "万"), axisLabel: { color: "#8b98a5" } },
+      yAxis: { type: "value", ...AXIS, name: "套数", nameTextStyle: { color: "#8b98a5" } },
+      series: [{ type: "bar", barWidth: "70%", data: keys.map(k => bins[k]), itemStyle: { color: p => p.value > 40 ? GOLD : GREEN, borderRadius: [4, 4, 0, 0] }, label: { show: true, position: "top", color: "#8b98a5", fontSize: 9, formatter: p => p.value > 20 ? p.value : "" } }],
+      markLine: undefined
+    });
+    hist.setOption({ series: [{ markLine: { silent: true, symbol: "none", lineStyle: { color: BLUE, type: "dashed" }, data: [{ xAxis: Math.round(c.overall.medianUnitPrice / step) - 0.5, label: { formatter: "中位 " + fmt(c.overall.medianUnitPrice), color: BLUE, fontSize: 10 } }] } }] });
+  }
+
+  const PLATE_COLOR = { "富阳·银湖": GOLD, "西湖·之江": PURPLE, "余杭·闲林": CYAN, "余杭·良渚": BLUE, "临安·青山湖": "#fb923c" };
+  const sc = initChart("ch-census-scatter");
+  if (sc) {
+    const groups = {};
+    c.listings.filter(r => r.area && r.unitPrice).forEach(r => { (groups[r.plate] = groups[r.plate] || []).push(r); });
+    sc.setOption({
+      grid: { left: 8, right: 20, top: 40, bottom: 10, containLabel: true },
+      legend: { textStyle: { color: "#8b98a5", fontSize: 10 }, top: 4, data: Object.keys(groups) },
+      tooltip: { ...TIP, formatter: p => `${p.data[3]}<br>${p.data[2]} · ${p.data[0]}㎡<br><b>${fmt(p.data[1])}</b> 元/㎡ · 约 ${fmt(Math.round(p.data[0] * p.data[1] / 10000))} 万` },
+      xAxis: { type: "value", name: "面积(㎡)", nameTextStyle: { color: "#8b98a5" }, ...AXIS },
+      yAxis: { type: "value", name: "单价(元/㎡)", nameTextStyle: { color: "#8b98a5" }, ...AXIS, axisLabel: { ...AXIS.axisLabel, formatter: v => (v / 10000).toFixed(0) + "万" } },
+      series: Object.entries(groups).map(([plate, rs]) => ({
+        name: plate, type: "scatter", symbolSize: 7, itemStyle: { color: PLATE_COLOR[plate] || GREEN, opacity: .8 },
+        data: rs.map(r => [r.area, r.unitPrice, r.layout, r.community + " · " + (r.title || "").slice(0, 16)]),
+      })),
+    });
+  }
+
+  const names = ["全部", ...c.summary.map(s => s.community)];
+  document.getElementById("census-filter").innerHTML = names.map(p => `<button data-p="${p}" class="${p === state.censusFilter ? "active" : ""}">${p}</button>`).join("");
+  document.getElementById("census-filter").onclick = e => {
+    const b = e.target.closest("button"); if (!b) return;
+    state.censusFilter = b.dataset.p;
+    document.querySelectorAll("#census-filter button").forEach(x => x.classList.toggle("active", x === b));
+    renderCensusTable();
+  };
+  renderCensusTable();
+}
+
+function renderCensusTable() {
+  const c = state.census;
+  const rows = c.listings.filter(r => state.censusFilter === "全部" || r.community === state.censusFilter);
+  document.getElementById("census-count-tag").textContent = `当前显示 ${rows.length} / ${c.totalCount} 套`;
+  sortableTable(document.getElementById("tbl-census"),
+    [{ label: "小区" }, { label: "板块" }, { label: "房源标题" }, { label: "面积(㎡)", num: 1 }, { label: "户型" }, { label: "朝向" }, { label: "总价(万)", num: 1 }, { label: "单价(元/㎡)", num: 1 }, { label: "装修" }, { label: "税费" }, { label: "链接" }],
+    rows.map(r => [r.community, r.plate, r.title, r.area, r.layout, r.dir, r.totalWan, r.unitPrice, r.deco, r.taxTag, r.url]),
+    r => `<tr><td><b style="color:${r[0] === "九龙山庄" ? "var(--gold)" : "var(--text)"}">${r[0]}</b></td><td style="color:var(--muted);font-size:11px">${r[1]}</td><td style="white-space:normal;min-width:200px;font-size:12px">${r[2]}</td><td class="num">${r[3] ?? "—"}</td><td>${r[4] ?? "—"}</td><td>${r[5] ?? "—"}</td><td class="num"><b>${fmt(r[6])}</b></td><td class="num">${fmt(r[7])}</td><td>${r[8] ?? "—"}</td><td style="color:var(--muted)">${r[9] ?? "—"}</td><td><a href="https://m.fang.com${r[10]}" target="_blank" rel="noopener" style="font-size:11px">查看</a></td></tr>`);
+}
+
 function renderMarket() {
   const m = state.market;
   const d = initChart("ch-district");
@@ -524,13 +637,13 @@ function renderAbout() {
 
 (async function init() {
   try {
-    const [meta, jiulong, compare, market] = await Promise.all([
-      loadJSON("data/metadata.json"), loadJSON("data/jiulong.json"), loadJSON("data/villas-compare.json"), loadJSON("data/market.json")
+    const [meta, jiulong, compare, market, census] = await Promise.all([
+      loadJSON("data/metadata.json"), loadJSON("data/jiulong.json"), loadJSON("data/villas-compare.json"), loadJSON("data/market.json"), loadJSON("data/all-listings.json")
     ]);
-    Object.assign(state, { meta, jiulong, compare, market });
+    Object.assign(state, { meta, jiulong, compare, market, census });
     document.getElementById("loading").style.display = "none";
     await waitForEcharts();
-    renderOverview(); renderJiulong(); renderCompare(); renderRent(); renderMarket(); renderAbout();
+    renderOverview(); renderCensus(); renderJiulong(); renderCompare(); renderRent(); renderMarket(); renderAbout();
   } catch (e) {
     document.getElementById("loading").innerHTML = `<div style="color:var(--red)">数据加载失败：${e.message}<br><span style="color:var(--muted);font-size:12px">请通过 HTTP 服务访问（如 python3 -m http.server），不要直接双击打开 index.html</span></div>`;
   }
