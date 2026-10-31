@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杭州九龙山庄（瀛洲苑）及周边别墅 · 租售行情调研</title>
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.1/echarts.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js';document.head.appendChild(s);"></script>
+<style>
+  :root {
+    --bg: #0f1419; --card: #1a2129; --card2: #212a35; --text: #e8edf2; --muted: #8b98a5;
+    --accent: #34d399; --accent2: #60a5fa; --gold: #f5c26b; --red: #f87171; --line: #2a3542;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.6; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px 60px; }
+  header { padding: 34px 0 18px; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+  h1 { font-size: 26px; font-weight: 700; letter-spacing: .5px; }
+  h1 .em { color: var(--gold); }
+  .sub { color: var(--muted); font-size: 13px; margin-top: 8px; }
+  .sub b { color: var(--accent); font-weight: 600; }
+  nav { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0 22px; position: sticky; top: 0; background: var(--bg); padding: 10px 0; z-index: 50; border-bottom: 1px solid var(--line); }
+  nav button { background: var(--card); color: var(--muted); border: 1px solid var(--line); padding: 8px 18px; border-radius: 20px; cursor: pointer; font-size: 14px; transition: all .18s; }
+  nav button:hover { color: var(--text); border-color: var(--accent); }
+  nav button.active { background: var(--accent); color: #06281c; border-color: var(--accent); font-weight: 600; }
+  section.tab { display: none; animation: fadein .25s ease; }
+  section.tab.active { display: block; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 16px 0 24px; }
+  .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+  .kpi .label { color: var(--muted); font-size: 12px; }
+  .kpi .value { font-size: 24px; font-weight: 700; color: var(--accent); margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .kpi .value.gold { color: var(--gold); } .kpi .value.blue { color: var(--accent2); } .kpi .value.red { color: var(--red); }
+  .kpi .foot { color: var(--muted); font-size: 11px; margin-top: 6px; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
+  .panel h3 { font-size: 16px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+  .panel h3::before { content: ""; width: 4px; height: 16px; background: var(--accent); border-radius: 2px; display: inline-block; }
+  .panel .desc { color: var(--muted); font-size: 12px; margin-bottom: 14px; }
+  .chart { width: 100%; height: 360px; }
+  .chart.tall { height: 460px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { color: var(--muted); font-weight: 600; cursor: pointer; user-select: none; font-size: 12px; }
+  th:hover { color: var(--accent); }
+  th.sorted-asc::after { content: " ↑"; color: var(--accent); }
+  th.sorted-desc::after { content: " ↓"; color: var(--accent); }
+  td.num { font-variant-numeric: tabular-nums; text-align: right; }
+  th.num { text-align: right; }
+  .tag { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 11px; border: 1px solid var(--line); color: var(--muted); }
+  .tag.hl { border-color: var(--gold); color: var(--gold); }
+  .tag.blue { border-color: var(--accent2); color: var(--accent2); }
+  .tag.green { border-color: var(--accent); color: var(--accent); }
+  .scrollx { overflow-x: auto; }
+  .note-box { background: var(--card2); border-left: 3px solid var(--gold); border-radius: 8px; padding: 14px 16px; font-size: 13px; margin: 12px 0; color: #cfd8e0; }
+  .note-box b { color: var(--gold); }
+  .legend-inline { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .filterbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .filterbar button { background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 14px; padding: 4px 14px; font-size: 12px; cursor: pointer; }
+  .filterbar button.active { border-color: var(--accent2); color: var(--accent2); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 860px) { .grid2 { grid-template-columns: 1fr; } .chart { height: 300px; } }
+  footer { color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); padding-top: 18px; margin-top: 30px; }
+  .src-list { font-size: 13px; color: #c4cdd6; }
+  .src-list li { margin: 6px 0 6px 18px; }
+  a { color: var(--accent2); text-decoration: none; } a:hover { text-decoration: underline; }
+  .plate-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+  .plate-card { background: var(--card2); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .plate-card h4 { font-size: 14px; margin-bottom: 6px; color: var(--accent2); }
+  .plate-card .p { font-size: 20px; font-weight: 700; color: var(--gold); }
+  .plate-card .n { font-size: 12px; color: var(--muted); margin: 6px 0; }
+  .plate-card .villas { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  #loading { text-align: center; padding: 80px 0; color: var(--muted); }
+  .spin { display: inline-block; width: 28px; height: 28px; border: 3px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: rot 1s linear infinite; }
+  @keyframes rot { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>杭州<span class="em">九龙山庄（瀛洲苑）</span>及周边别墅 · 租售行情调研</h1>
+    <div class="sub">数据采集日 <b>2026-10-31</b> · 覆盖贝壳/链家、安居客、房天下、透明售房网、司法拍卖等公开渠道聚合 · 挂牌价与成交价为不同口径，图表中已分别标注</div>
+  </header>
+
+  <nav id="nav">
+    <button data-tab="overview" class="active">📋 总览</button>
+    <button data-tab="jiulong">🏡 九龙山庄·瀛洲苑</button>
+    <button data-tab="compare">🗺️ 周边别墅对比</button>
+    <button data-tab="rent">💰 租金行情</button>
+    <button data-tab="market">📈 市场背景</button>
+    <button data-tab="about">📎 数据说明</button>
+  </nav>
+
+  <div id="loading"><span class="spin"></span><div style="margin-top:12px">数据加载中…</div></div>
+
+  <!-- 总览 -->
+  <section class="tab active" id="tab-overview">
+    <div class="cards" id="kpi-cards"></div>
+    <div class="grid2">
+      <div class="panel">
+        <h3>九龙山庄 · 各平台挂牌/参考均价口径对比</h3>
+        <div class="desc">同一天不同平台与口径的价格差异 —— 别墅口径（约4.5万）显著高于全小区混合口径（2.1万~3.1万）</div>
+        <div class="chart" id="ch-price-views"></div>
+      </div>
+      <div class="panel">
+        <h3>杭州近郊别墅小区 · 别墅口径挂牌均价对比</h3>
+        <div class="desc">单位：元/㎡ · 点查看小区，数据为各平台公开参考区间</div>
+        <div class="chart tall" id="ch-villa-bar"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>一句话结论</h3>
+      <div class="note-box">
+        <b>买：</b>九龙山庄别墅挂牌单价约 <b>3.8万–5.8万元/㎡</b>，主流独栋总价 <b>1180万–2200万</b>；全小区混合均价约3.1万/㎡（含洋房/公寓）。在银湖板块中低于七里香溪（5.4万），与颐景山庄别墅（4.6万）相当，高于清源上林湖（2.4万–3.0万）。
+      </div>
+      <div class="note-box">
+        <b>租：</b>九龙山庄别墅整租 <b>5500–15000元/月</b>，主力 8000–10000元/月（370–426㎡）；按 2000万挂牌价与 1万/月租金估算，租售比约 <b>1:2000（年化租金回报率≈0.6%）</b>，符合远郊低密别墅「自住/度假属性强、投资属性弱」的特征。
+      </div>
+      <div class="note-box">
+        <b>瀛洲苑：</b>为九龙山庄内部组团（浙电系统相关），贝壳等平台未单独建库，其房源并入「九龙山庄」主小区挂牌统计——即瀛洲苑的在售/在租房源包含在上表 65+ 套在售、6 套整租样本之中。需要逐套定位瀛洲苑房源，须登录贝壳 App 按组团名筛选（本页预留补充通道）。
+      </div>
+    </div>
+  </section>
+
+  <!-- 九龙山庄 -->
+  <section class="tab" id="tab-jiulong">
+    <div class="cards" id="kpi-jiulong"></div>
+
+    <div class="panel">
+      <h3>历史价格走势（2019 → 2026）</h3>
+      <div class="desc">两条口径独立成线：别墅口径（安居客）与全小区混合口径（贝壳/房天下等）。口径不同不可直接混比，但趋势可互相印证：别墅产品 2025 高点后同比回调约 5%，2026 年 8-9 月环比企稳回升。</div>
+      <div class="chart" id="ch-history"></div>
+    </div>
+
+    <div class="panel">
+      <h3>在售挂牌房源明细<span class="tag hl">点击表头排序</span></h3>
+      <div class="desc">公开渠道可聚合的挂牌样本（贝壳/房天下/链家摘要）；完整 65+ 套在售清单需登录贝壳后补充采集</div>
+      <div class="scrollx"><table id="tbl-sale"></table></div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel">
+        <h3>挂牌样本 · 单价 × 面积</h3>
+        <div class="desc">别墅与洋房产品价差清晰分层</div>
+        <div class="chart" id="ch-sale-scatter"></div>
+      </div>
+      <div class="panel">
+        <h3>在租房源 · 租金分布</h3>
+        <div class="desc">6 套整租样本（房天下租房频道聚合，2026-10-31）</div>
+        <div class="chart" id="ch-rent-bar"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>在租房源明细</h3>
+      <div class="scrollx"><table id="tbl-rent"></table></div>
+    </div>
+
+    <div class="panel">
+      <h3>法拍 / 司法拍卖记录</h3>
+      <div class="scrollx"><table id="tbl-auction"></table></div>
+      <div class="note-box" style="margin-top:12px"><b>提示：</b>远郊别墅法拍折价明显（同板块麒麟山庄法拍成交单价约 2.23万/㎡，较挂牌口径折价约四成）。法拍是观察「真实成交底价」的重要窗口。</div>
+    </div>
+
+    <div class="panel">
+      <h3>瀛洲苑组团 · 调研说明</h3>
+      <div id="yingzhou-notes"></div>
+    </div>
+  </section>
+
+  <!-- 对比 -->
+  <section class="tab" id="tab-compare">
+    <div class="filterbar" id="plate-filter"></div>
+    <div class="panel">
+      <h3>别墅口径挂牌均价 · 横向对比</h3>
+      <div class="desc">单位：元/㎡ · 金色为九龙山庄 · 可用上方板块筛选</div>
+      <div class="chart tall" id="ch-compare-bar"></div>
+    </div>
+    <div class="panel">
+      <h3>参考均价区间（多平台口径）</h3>
+      <div class="desc">柱体为区间（低-高口径），点为别墅口径；不同平台统计范围不同，区间越宽说明口径分歧越大</div>
+      <div class="chart tall" id="ch-compare-range"></div>
+    </div>
+    <div class="panel">
+      <h3>板块速览</h3>
+      <div class="plate-cards" id="plate-cards"></div>
+    </div>
+    <div class="panel">
+      <h3>对比明细表<span class="tag hl">点击表头排序</span></h3>
+      <div class="scrollx"><table id="tbl-compare"></table></div>
+    </div>
+  </section>
+
+  <!-- 租金 -->
+  <section class="tab" id="tab-rent">
+    <div class="panel">
+      <h3>杭州近郊别墅 · 整租租金对比</h3>
+      <div class="desc">单位：元/月 · 金色为九龙山庄样本 · 涵盖银湖/良渚/闲林等板块</div>
+      <div class="chart tall" id="ch-rent-compare"></div>
+    </div>
+    <div class="panel">
+      <h3>租金样本 · 面积 × 租金散点</h3>
+      <div class="desc">同面积段下，九龙山庄租金处于中位水平；单位面积租金约 15–30元/㎡/月</div>
+      <div class="chart" id="ch-rent-scatter"></div>
+    </div>
+    <div class="panel">
+      <h3>租金样本明细<span class="tag hl">点击表头排序</span></h3>
+      <div class="scrollx"><table id="tbl-rent-all"></table></div>
+    </div>
+  </section>
+
+  <!-- 市场 -->
+  <section class="tab" id="tab-market">
+    <div class="grid2">
+      <div class="panel">
+        <h3>杭州各区二手均价（2026-10）</h3>
+        <div class="desc">单位：元/㎡ · 全市二手均价 33,085（同比 +0.9%）</div>
+        <div class="chart" id="ch-district"></div>
+      </div>
+      <div class="panel">
+        <h3>富阳区板块均价排行</h3>
+        <div class="desc">单位：元/㎡ · 银湖板块（九龙山庄所在）为富阳第三</div>
+        <div class="chart" id="ch-fuyang"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>行情要点</h3>
+      <ul class="src-list" id="trend-notes"></ul>
+    </div>
+  </section>
+
+  <!-- 说明 -->
+  <section class="tab" id="tab-about">
+    <div class="panel">
+      <h3>采集方法与口径</h3>
+      <ul class="src-list" id="method-list"></ul>
+    </div>
+    <div class="panel">
+      <h3>数据来源</h3>
+      <ul class="src-list" id="source-list"></ul>
+    </div>
+    <div class="panel">
+      <h3>免责声明</h3>
+      <div class="note-box" id="disclaimer"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div id="footer-meta"></div>
+    <div style="margin-top:6px">交互网页 · 纯静态可部署于 Vercel / GitHub Pages / 任意静态托管 · 图表 ECharts</div>
+  </footer>
+</div>
+
+<script>
+const state = { meta: null, jiulong: null, compare: null, market: null, plateFilter: "全部", charts: {} };
+const fmt = n => n == null ? "—" : Number(n).toLocaleString("zh-CN");
+const charts = [];
+function initChart(id) { const el = document.getElementById(id); if (!el || !window.echarts) return null; const c = echarts.init(el); charts.push(c); return c; }
+window.addEventListener("resize", () => charts.forEach(c => c.resize()));
+const AXIS = { axisLine: { lineStyle: { color: "#3a4756" } }, axisLabel: { color: "#8b98a5" }, splitLine: { lineStyle: { color: "#222d3a" } } };
+const TIP = { backgroundColor: "#212a35", borderColor: "#2a3542", textStyle: { color: "#e8edf2", fontSize: 12 } };
+const GREEN = "#34d399", GOLD = "#f5c26b", BLUE = "#60a5fa", RED = "#f87171", PURPLE = "#c084fc", CYAN = "#22d3ee";
+
+async function loadJSON(p) { const r = await fetch(p); if (!r.ok) throw new Error(p + " " + r.status); return r.json(); }
+async function waitForEcharts(timeoutMs = 15000) {
+  const start = Date.now();
+  while (!(window.echarts && typeof window.echarts.init === "function")) {
+    if (Date.now() - start > timeoutMs) throw new Error("ECharts 加载超时（检查 CDN 网络）");
+    await new Promise(r => setTimeout(r, 120));
+  }
+}
+
+document.getElementById("nav").addEventListener("click", e => {
+  const btn = e.target.closest("button"); if (!btn) return;
+  document.querySelectorAll("nav button").forEach(b => b.classList.toggle("active", b === btn));
+  document.querySelectorAll("section.tab").forEach(s => s.classList.toggle("active", s.id === "tab-" + btn.dataset.tab));
+  charts.forEach(c => c.resize());
+});
+
+function sortableTable(table, headers, rows, renderRow) {
+  const thead = `<thead><tr>${headers.map((h, i) => `<th class="${h.num ? "num" : ""}" data-i="${i}">${h.label}</th>`).join("")}</tr></thead>`;
+  const draw = (sortI, dir) => {
+    const sorted = [...rows];
+    if (sortI != null) sorted.sort((a, b) => {
+      const va = a[sortI], vb = b[sortI];
+      const na = va == null ? -Infinity : va, nb = vb == null ? -Infinity : vb;
+      if (typeof na === "number" && typeof nb === "number") return (na - nb) * dir;
+      return String(va ?? "").localeCompare(String(vb ?? ""), "zh") * dir;
+    });
+    table.innerHTML = thead + "<tbody>" + sorted.map(renderRow).join("") + "</tbody>";
+    table.querySelectorAll("th").forEach(th => {
+      if (th.dataset.i == sortI) th.classList.add(dir === 1 ? "sorted-asc" : "sorted-desc");
+      th.onclick = () => {
+        const i = +th.dataset.i;
+        const alreadyAsc = th.classList.contains("sorted-asc");
+        draw(i, alreadyAsc ? -1 : 1);
+      };
+    });
+  };
+  draw(null, 1);
+}
+
+function renderOverview() {
+  const j = state.jiulong, c = state.compare;
+  const villaLow = Math.min(...j.saleListings.filter(s => s.pricePerSqm && s.type.includes("别墅")).map(s => s.pricePerSqm));
+  const villaHigh = Math.max(...j.saleListings.filter(s => s.pricePerSqm && s.type.includes("别墅")).map(s => s.pricePerSqm));
+  document.getElementById("kpi-cards").innerHTML = [
+    { l: "贝壳全小区参考均价", v: "31,013", u: "元/㎡", f: "混合口径 · 在售 65–67 套", cls: "" },
+    { l: "别墅产品挂牌均价", v: "45,106", u: "元/㎡", f: "安居客 2026-09 · 同比 -4.92%", cls: "gold" },
+    { l: "独栋挂牌总价区间", v: "1,180–2,200", u: "万元", f: `挂牌样本单价 ${fmt(villaLow)}–${fmt(villaHigh)} 元/㎡`, cls: "gold" },
+    { l: "别墅整租租金", v: "5,500–15,000", u: "元/月", f: "主力 8千–1万 · 6 套样本", cls: "blue" },
+    { l: "周边对比小区数", v: String(c.communities.length), u: "个", f: "银湖/之江/闲林/良渚/青山湖/湘湖", cls: "" },
+    { l: "杭州二手均价(10月)", v: "33,085", u: "元/㎡", f: "同比 +0.9% · 全市企稳", cls: "" },
+  ].map(k => `<div class="kpi"><div class="label">${k.l}</div><div class="value ${k.cls}">${k.v}<span style="font-size:12px;color:var(--muted);font-weight:400"> ${k.u}</span></div><div class="foot">${k.f}</div></div>`).join("");
+
+  const pv = initChart("ch-price-views");
+  if (pv) pv.setOption({
+    grid: { left: 8, right: 20, top: 30, bottom: 10, containLabel: true },
+    tooltip: { ...TIP, formatter: p => `${p[0].name}<br>` + p.map(x => `${x.marker}${x.seriesName}：<b>${fmt(x.value)}</b> 元/㎡`).join("<br>") },
+    xAxis: { type: "value", ...AXIS, axisLabel: { ...AXIS.axisLabel, formatter: v => (v / 10000).toFixed(1) + "万" } },
+    yAxis: { type: "category", ...AXIS, splitLine: { show: false }, data: j.priceOverview.map(p => `${p.platform}·${p.scope}`), axisLabel: { color: "#c4cdd6", fontSize: 11 } },
+    series: [{ type: "bar", data: j.priceOverview.map(p => p.pricePerSqm), barWidth: 14, itemStyle: { color: p => p.data >= 40000 ? GOLD : GREEN, borderRadius: [0, 4, 4, 0] }, label: { show: true, position: "right", color: "#8b98a5", fontSize: 11, formatter: p => fmt(p.value) } }]
+  });
+  renderVillaBar("ch-villa-bar");
+}
+
+function renderVillaBar(id) {
+  const c = initChart(id); if (!c) return;
+  const data = state.compare.communities.filter(x => x.villaPrice).sort((a, b) => b.villaPrice - a.villaPrice);
+  c.setOption({
+    grid: { left: 8, right: 40, top: 16, bottom: 10, containLabel: true },
+    tooltip: { ...TIP, formatter: p => `<b>${p.name}</b><br>${p.data.plate}<br>别墅口径：<b>${fmt(p.value)}</b> 元/㎡<br>${p.data.note || ""}` },
+    xAxis: { type: "value", ...AXIS, axisLabel: { ...AXIS.axisLabel, formatter: v => (v / 10000).toFixed(0) + "万" } },
+    yAxis: { type: "category", ...AXIS, splitLine: { show: false }, inverse: true, data: data.map(x => x.name), axisLabel: { color: "#c4cdd6", fontSize: 11 } },
+    series: [{ type: "bar", barWidth: 13, data: data.map(x => ({ value: x.villaPrice, name: x.name, plate: x.area, note: x.villaNote, itemStyle: { color: x.name.includes("九龙山庄") ? GOLD : (x.name.includes("颐景") || x.name.includes("七里香溪") ? BLUE : GREEN), borderRadius: [0, 4, 4, 0] } })), label: { show: true, position: "right", color: "#8b98a5", fontSize: 10, formatter: p => fmt(p.value) } }]
+  });
+}
+
+function renderJiulong() {
+  const j = state.jiulong;
+  document.getElementById("kpi-jiulong").innerHTML = [
+    { l: "建成年代 / 体量", v: "2006年", u: "· 近千亩", f: `${j.community.developer}<br>${j.community.propertyType}`, cls: "" },
+    { l: "贝壳在售", v: "65+", u: "套", f: "全小区口径（含洋房/公寓）", cls: "" },
+    { l: "整租样本", v: "6", u: "套", f: "5,500–15,000 元/月", cls: "blue" },
+    { l: "年化租金回报率≈", v: "0.6", u: "%", f: "按2000万挂牌/1万月租估算", cls: "red" },
+  ].map(k => `<div class="kpi"><div class="label">${k.l}</div><div class="value ${k.cls}">${k.v}<span style="font-size:12px;color:var(--muted);font-weight:400"> ${k.u}</span></div><div class="foot">${k.f}</div></div>`).join("");
+
+  const h = initChart("ch-history");
+  if (h) {
+    const labels = j.priceHistory.map(p => p.label);
+    h.setOption({
+      grid: { left: 8, right: 16, top: 40, bottom: 8, containLabel: true },
+      legend: { textStyle: { color: "#8b98a5" }, top: 4 },
+      tooltip: { ...TIP, trigger: "axis" },
+      xAxis: { type: "category", ...AXIS, data: labels, boundaryGap: true },
+      yAxis: { type: "value", ...AXIS, axisLabel: { ...AXIS.axisLabel, formatter: v => (v / 10000).toFixed(1) + "万" }, min: 15000, max: 50000 },
+      series: [
+        { name: "别墅口径（安居客）", type: "line", connectNulls: true, data: j.priceHistory.map(p => p.villa), symbolSize: 9, lineStyle: { color: GOLD, width: 3 }, itemStyle: { color: GOLD }, label: { show: true, color: GOLD, fontSize: 10, formatter: p => p.value ? fmt(p.value) : "" } },
+        { name: "全小区混合口径", type: "line", connectNulls: true, data: j.priceHistory.map(p => p.mixed), symbolSize: 9, lineStyle: { color: BLUE, width: 3, type: "dashed" }, itemStyle: { color: BLUE }, label: { show: true, color: BLUE, fontSize: 10, position: "bottom", formatter: p => p.value ? fmt(p.value) : "" } },
+      ]
+    });
+  }
+
+  sortableTable(document.getElementById("tbl-sale"),
+    [{ label: "产品", }, { label: "户型" }, { label: "面积(㎡)", num: 1 }, { label: "总价(万)", num: 1 }, { label: "单价(元/㎡)", num: 1 }, { label: "装修" }, { label: "特点" }, { label: "来源" }],
+    j.saleListings.map(s => [s.type, s.layout, s.areaSqm, s.totalWan, s.pricePerSqm, s.decoration || "—", s.feature || "—", s.source]),
+    r => `<tr><td><span class="tag ${String(r[0]).includes("洋房") ? "blue" : "hl"}">${r[0]}</span></td><td>${r[1] ?? "—"}</td><td class="num">${r[2] ?? "—"}</td><td class="num">${r[3] ?? "—"}</td><td class="num">${r[4] ? fmt(r[4]) : "—"}</td><td>${r[5]}</td><td style="white-space:normal;min-width:160px">${r[6]}</td><td style="color:var(--muted);font-size:11px">${r[7]}</td></tr>`);
+
+  const sc = initChart("ch-sale-scatter");
+  if (sc) {
+    const pts = j.saleListings.filter(s => s.areaSqm && s.pricePerSqm);
+    sc.setOption({
+      grid: { left: 8, right: 24, top: 30, bottom: 10, containLabel: true },
+      tooltip: { ...TIP, formatter: p => `${p.data[3]}<br>${p.data[2] ?? "—"} · ${p.data[0]}㎡<br><b>${fmt(p.data[1])}</b> 元/㎡${p.data[4] ? `<br>总价约 ${fmt(p.data[4])} 万` : ""}` },
+      xAxis: { type: "value", name: "面积(㎡)", nameTextStyle: { color: "#8b98a5" }, ...AXIS },
+      yAxis: { type: "value", name: "单价(元/㎡)", nameTextStyle: { color: "#8b98a5" }, ...AXIS, axisLabel: { ...AXIS.axisLabel, formatter: v => (v / 10000).toFixed(1) + "万" } },
+      series: [{
+        type: "scatter", symbolSize: d => 14 + Math.sqrt(d[0]) / 3,
+        data: pts.map(s => { const isVilla = s.type.includes("别墅"); return { value: [s.areaSqm, s.pricePerSqm, s.layout, s.type, s.totalWan], itemStyle: { color: isVilla ? GOLD : BLUE, opacity: .85 } }; }),
+        label: { show: true, position: "top", color: "#8b98a5", fontSize: 10, formatter: p => p.data[4] ? p.data[4] + "万" : "" }
+      }]
+    });
+  }
+
+  const rb = initChart("ch-rent-bar");
+  if (rb) rb.setOption({
+    grid: { left: 8, right: 24, top: 16, bottom: 10, containLabel: true },
+    tooltip: { ...TIP, formatter: p => `${p.name}<br><b>${fmt(p.value)}</b> 元/月` },
+    xAxis: { type: "value", ...AXIS },
+    yAxis: { type: "category", ...AXIS, splitLine: { show: false }, inverse: true, data: j.rentListings.map(r => `${r.layout} ${r.areaSqm}㎡`), axisLabel: { color: "#c4cdd6", fontSize: 11 } },
+    series: [{ type: "bar", barWidth: 16, data: j.rentListings.map(r => r.rentPerMonth), itemStyle: { color: GREEN, borderRadius: [0, 4, 4, 0] }, label: { show: true, position: "right", color: "#8b98a5", fontSize: 11, formatter: p => fmt(p.value) } }]
+  });
+
+  sortableTable(document.getElementById("tbl-rent"),
+    [{ label: "产品" }, { label: "户型" }, { label: "面积(㎡)", num: 1 }, { label: "租金(元/月)", num: 1 }, { label: "元/㎡/月", num: 1 }, { label: "特点" }, { label: "来源" }],
+    j.rentListings.map(r => [r.type, r.layout, r.areaSqm, r.rentPerMonth, r.areaSqm ? +(r.rentPerMonth / r.areaSqm).toFixed(1) : null, r.feature, r.source]),
+    r => `<tr><td><span class="tag green">${r[0]}</span></td><td>${r[1]}</td><td class="num">${r[2]}</td><td class="num"><b>${fmt(r[3])}</b></td><td class="num">${r[4] ?? "—"}</td><td style="white-space:normal;min-width:150px">${r[5]}</td><td style="color:var(--muted);font-size:11px">${r[6]}</td></tr>`);
+
+  document.getElementById("tbl-auction").innerHTML =
+    `<thead><tr><th>标的</th><th class="num">起拍/成交(万)</th><th>结果</th><th>来源</th></tr></thead><tbody>` +
+    j.auctionRecords.map(a => `<tr><td>${a.asset}</td><td class="num">${a.startPriceWan ?? a.priceWan ?? "—"}</td><td style="white-space:normal">${a.result}</td><td style="color:var(--muted);font-size:11px">${a.source}</td></tr>`).join("") + "</tbody>";
+
+  document.getElementById("yingzhou-notes").innerHTML = j.yingzhouNotes.map(n => `<div class="note-box">${n}</div>`).join("") +
+    `<div class="note-box"><b>组团信息：</b>${j.community.groups.map(g => `<span class="tag hl">${g.name}</span>`).join(" ")} —— ${j.community.groups.map(g => g.name + "：" + g.note).join("；")}</div>`;
+}
+
+function renderCompare() {
+  const c = state.compare;
+  const plates = ["全部", ...new Set(c.communities.map(x => x.area.split("·")[0]))];
+  document.getElementById("plate-filter").innerHTML = plates.map(p => `<button data-p="${p}" class="${p === state.plateFilter ? "active" : ""}">${p}</button>`).join("");
+  document.getElementById("plate-filter").onclick = e => {
+    const b = e.target.closest("button"); if (!b) return;
+    state.plateFilter = b.dataset.p;
+    document.querySelectorAll("#plate-filter button").forEach(x => x.classList.toggle("active", x === b));
+    renderCompareCharts();
+  };
+  renderCompareCharts();
+
+  document.getElementById("plate-cards").innerHTML = c.plateSummary.map(p => `
+    <div class="plate-card">
+      <h4>${p.plate}</h4>
+      <div class="p">${p.mixedAvg ? fmt(p.mixedAvg) + " <span style='font-size:12px;color:var(--muted)'>元/㎡（板块整体）</span>" : "—"}</div>
+      <div class="n">${p.note}</div>
+      <div class="villas">${p.villas.map(v => `<span class="tag">${v}</span>`).join("")}</div>
+    </div>`).join("");
+
+  sortableTable(document.getElementById("tbl-compare"),
+    [{ label: "小区" }, { label: "板块" }, { label: "区" }, { label: "别墅口径(元/㎡)", num: 1 }, { label: "均价区间(元/㎡)" }, { label: "在售" }, { label: "备注" }, { label: "来源" }],
+    c.communities.map(x => [x.name, x.area, x.district, x.villaPrice, x.avgPriceLow && x.avgPriceHigh ? `${fmt(x.avgPriceLow)}–${fmt(x.avgPriceHigh)}` : "—", x.onSale, x.villaNote || x.highlight || "—", x.source]),
+    r => `<tr><td><b style="color:${r[0].includes("九龙山庄") ? "var(--gold)" : "var(--text)"}">${r[0]}</b></td><td>${r[1]}</td><td style="color:var(--muted)">${r[2]}</td><td class="num">${r[3] ? fmt(r[3]) : "—"}</td><td class="num">${r[4]}</td><td>${r[5]}</td><td style="white-space:normal;min-width:220px;font-size:12px;color:#c4cdd6">${r[6]}</td><td style="color:var(--muted);font-size:11px">${r[7]}</td></tr>`);
+}
+
+function renderCompareCharts() {
+  const c = state.compare;
+  const filtered = c.communities.filter(x => state.plateFilter === "全部" || x.area.startsWith(state.plateFilter));
+  const bar = state.charts["ch-compare-bar"] || (state.charts["ch-compare-bar"] = initChart("ch-compare-bar"));
+  const data = filtered.filter(x => x.villaPrice).sort((a, b) => b.villaPrice - a.villaPrice);
+  if (bar) bar.setOption({
+    grid: { left: 8, right: 44, top: 16, bottom: 10, containLabel: true },
+    tooltip: { ...TIP, formatter: p => `<b>${p.name}</b><br>${p.data.plate}<br>别墅口径：<b>${fmt(p.value)}</b> 元/㎡<br>${p.data.note || ""}` },
+    xAxis: { type: "value", ...AXIS, axisLabel: { ...AXIS.axisLabel, formatter: v => (v / 10000).toFixed(0) + "万" } },
+    yAxis: { type: "category", ...AXIS, splitLine: { show: false }, inverse: true, data: data.map(x => x.name), axisLabel: { color: "#c4cdd6", fontSize: 11 } },
+    series: [{ type: "bar", barWidth: 13, data: data.map(x => ({ value: x.villaPrice, name: x.name, plate: x.area, note: x.villaNote, itemStyle: { color: x.name.includes("九龙山庄") ? GOLD : (["七里香溪", "颐景山庄"].some(k => x.name.includes(k)) ? BLUE : GREEN), borderRadius: [0, 4, 4, 0] } })), label: { show: true, position: "right", color: "#8b98a5", fontSize: 10, formatter: p => fmt(p.value) } }]
+  }, true);
+
+  const rg = state.charts["ch-compare-range"] || (state.charts["ch-compare-range"] = initChart("ch-compare-range"));
+  const rdata = filtered.filter(x => x.avgPriceLow).sort((a, b) => (b.avgPriceHigh + (b.villaPrice || 0)) - (a.avgPriceHigh + (a.villaPrice || 0)));
+  if (rg) rg.setOption({
+    grid: { left: 8, right: 30, top: 30, bottom: 10, containLabel: true },
+    legend: { textStyle: { color: "#8b98a5" }, top: 2, data: ["参考均价区间", "别墅口径"] },
+    tooltip: { ...TIP, formatter: ps => `<b>${ps[0].name}</b><br>` + ps.map(p => `${p.marker}${p.seriesName}：${p.seriesName.includes("区间") ? fmt(p.value[1]) + "（低 " + fmt(p.value[0]) + "）" : fmt(p.value)} 元/㎡`).join("<br>") },
+    xAxis: { type: "value", ...AXIS, axisLabel: { ...AXIS.axisLabel, formatter: v => (v / 10000).toFixed(0) + "万" } },
+    yAxis: { type: "category", ...AXIS, splitLine: { show: false }, inverse: true, data: rdata.map(x => x.name), axisLabel: { color: "#c4cdd6", fontSize: 11 } },
+    series: [
+      { name: "参考均价区间", type: "custom", renderItem: (params, api) => { const low = api.coord([api.value(1), api.value(0)]), high = api.coord([api.value(2), api.value(0)]); return { type: "rect", shape: { x: low[0] - 5, y: high[1] - 4, width: 10, height: low[1] - high[1] + 8 }, style: { fill: "#60a5fa55" } }; }, encode: { x: [1, 2], y: 0 }, data: rdata.map(x => [x.name, x.avgPriceLow, x.avgPriceHigh]) },
+      { name: "别墅口径", type: "scatter", symbolSize: 10, data: rdata.filter(x => x.villaPrice).map(x => ({ value: [x.villaPrice, x.name], itemStyle: { color: x.name.includes("九龙山庄") ? GOLD : "#f0a35e" } })) },
+    ]
+  }, true);
+  if (bar) bar.resize(); if (rg) rg.resize();
+}
+
+function renderRent() {
+  const c = state.compare;
+  const rs = c.rentSamples.slice().sort((a, b) => b.rent - a.rent);
+  const rc = initChart("ch-rent-compare");
+  if (rc) rc.setOption({
+    grid: { left: 8, right: 36, top: 16, bottom: 10, containLabel: true },
+    tooltip: { ...TIP, formatter: p => `<b>${p.name}</b><br>${p.data.plate}<br>${p.data.layout}${p.data.sqm ? " · " + p.data.sqm + "㎡" : ""}<br><b>${fmt(p.value)}</b> 元/月` },
+    xAxis: { type: "value", ...AXIS },
+    yAxis: { type: "category", ...AXIS, splitLine: { show: false }, inverse: true, data: rs.map(r => r.community), axisLabel: { color: "#c4cdd6", fontSize: 11 } },
+    series: [{ type: "bar", barWidth: 14, data: rs.map(r => ({ value: r.rent, name: r.community, plate: r.area, layout: r.layout, sqm: r.areaSqm, itemStyle: { color: r.community.includes("九龙山庄") ? GOLD : GREEN, borderRadius: [0, 4, 4, 0], opacity: r.community.includes("九龙山庄") ? 1 : .8 } })), label: { show: true, position: "right", color: "#8b98a5", fontSize: 10, formatter: p => fmt(p.value) } }]
+  });
+
+  const sc = initChart("ch-rent-scatter");
+  if (sc) {
+    const pts = c.rentSamples.filter(r => r.areaSqm);
+    sc.setOption({
+      grid: { left: 8, right: 24, top: 30, bottom: 10, containLabel: true },
+      tooltip: { ...TIP, formatter: p => `${p.data[3]}（${p.data[2]}）<br>${p.data[4]}㎡ · ${p.data[5]}<br><b>${fmt(p.data[1])}</b> 元/月` },
+      xAxis: { type: "value", name: "面积(㎡)", nameTextStyle: { color: "#8b98a5" }, ...AXIS },
+      yAxis: { type: "value", name: "租金(元/月)", nameTextStyle: { color: "#8b98a5" }, ...AXIS },
+      series: [{ type: "scatter", symbolSize: 15, data: pts.map(r => ({ value: [r.areaSqm, r.rent, r.area, r.community, r.areaSqm, r.layout], name: r.community, itemStyle: { color: r.community.includes("九龙山庄") ? GOLD : BLUE, opacity: .85 } })) }]
+    });
+  }
+
+  sortableTable(document.getElementById("tbl-rent-all"),
+    [{ label: "小区" }, { label: "板块" }, { label: "户型" }, { label: "面积(㎡)", num: 1 }, { label: "租金(元/月)", num: 1 }, { label: "元/㎡/月", num: 1 }],
+    c.rentSamples.map(r => [r.community, r.area, r.layout, r.areaSqm, r.rent, r.areaSqm ? +(r.rent / r.areaSqm).toFixed(1) : null]),
+    r => `<tr><td><b style="color:${r[0].includes("九龙山庄") ? "var(--gold)" : "var(--text)"}">${r[0]}</b></td><td style="color:var(--muted)">${r[1]}</td><td>${r[2]}</td><td class="num">${r[3] ?? "—"}</td><td class="num"><b>${fmt(r[4])}</b></td><td class="num">${r[5] ?? "—"}</td></tr>`);
+}
+
+function renderMarket() {
+  const m = state.market;
+  const d = initChart("ch-district");
+  if (d) d.setOption({
+    grid: { left: 8, right: 20, top: 30, bottom: 10, containLabel: true },
+    tooltip: { ...TIP, formatter: p => `${p.name}：<b>${fmt(p.value)}</b> 元/㎡` },
+    xAxis: { type: "value", ...AXIS, axisLabel: { ...AXIS.axisLabel, formatter: v => (v / 10000).toFixed(0) + "万" } },
+    yAxis: { type: "category", ...AXIS, splitLine: { show: false }, inverse: true, data: [...m.hangzhou.districtRanking].sort((a, b) => a.price - b.price).map(x => x.district), axisLabel: { color: "#c4cdd6" } },
+    series: [{ type: "bar", barWidth: 15, data: [...m.hangzhou.districtRanking].sort((a, b) => a.price - b.price).map(x => x.price), itemStyle: { color: BLUE, borderRadius: [0, 4, 4, 0] }, markLine: { silent: true, symbol: "none", lineStyle: { color: GOLD, type: "dashed" }, data: [{ xAxis: 33085, label: { formatter: "全市 33,085", color: GOLD, fontSize: 10 } }] }, label: { show: true, position: "right", color: "#8b98a5", fontSize: 10, formatter: p => fmt(p.value) } }]
+  });
+  const f = initChart("ch-fuyang");
+  if (f) f.setOption({
+    grid: { left: 8, right: 50, top: 30, bottom: 10, containLabel: true },
+    tooltip: { ...TIP, formatter: p => `${p.name}：<b>${fmt(p.value)}</b> 元/㎡` },
+    xAxis: { type: "value", ...AXIS, axisLabel: { ...AXIS.axisLabel, formatter: v => (v / 10000).toFixed(1) + "万" } },
+    yAxis: { type: "category", ...AXIS, splitLine: { show: false }, inverse: true, data: [...m.fuyang.plateRanking].sort((a, b) => a.price - b.price).map(x => x.plate), axisLabel: { color: "#c4cdd6" } },
+    series: [{ type: "bar", barWidth: 20, data: [...m.fuyang.plateRanking].sort((a, b) => a.price - b.price).map(x => ({ value: x.price, itemStyle: { color: x.plate.includes("银湖") ? GOLD : GREEN, borderRadius: [0, 4, 4, 0] } })), label: { show: true, position: "right", color: "#8b98a5", fontSize: 11, formatter: p => fmt(p.value) } }]
+  });
+  document.getElementById("trend-notes").innerHTML = m.trendNotes.map(n => `<li style="margin:8px 0 8px 18px">${n}</li>`).join("");
+}
+
+function renderAbout() {
+  const m = state.meta;
+  document.getElementById("method-list").innerHTML = m.methodology.map(x => `<li style="margin:8px 0 8px 18px">${x}</li>`).join("");
+  document.getElementById("source-list").innerHTML = m.sources.map(s => `<li style="margin:8px 0 8px 18px"><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a> —— ${s.note}</li>`).join("");
+  document.getElementById("disclaimer").innerHTML = m.disclaimer;
+  document.getElementById("footer-meta").innerHTML = `采集时间：${m.collectedAt} · 目标小区：${m.target.community}（${m.target.location}） · 采集方式：${m.collector}`;
+}
+
+(async function init() {
+  try {
+    const [meta, jiulong, compare, market] = await Promise.all([
+      loadJSON("data/metadata.json"), loadJSON("data/jiulong.json"), loadJSON("data/villas-compare.json"), loadJSON("data/market.json")
+    ]);
+    Object.assign(state, { meta, jiulong, compare, market });
+    document.getElementById("loading").style.display = "none";
+    await waitForEcharts();
+    renderOverview(); renderJiulong(); renderCompare(); renderRent(); renderMarket(); renderAbout();
+  } catch (e) {
+    document.getElementById("loading").innerHTML = `<div style="color:var(--red)">数据加载失败：${e.message}<br><span style="color:var(--muted);font-size:12px">请通过 HTTP 服务访问（如 python3 -m http.server），不要直接双击打开 index.html</span></div>`;
+  }
+})();
+</script>
+</body>
+</html>

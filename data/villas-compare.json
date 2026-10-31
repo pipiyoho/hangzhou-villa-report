@@ -1,0 +1,200 @@
+{
+  "collectedAt": "2026-10-31",
+  "note": "挂牌均价为各平台公开参考价，不同平台口径（别墅/混合、挂牌/成交）差异大，取有代表性的区间值与主口径。价格为元/㎡。",
+  "communities": [
+    {
+      "name": "九龙山庄", "area": "富阳·银湖", "district": "富阳区",
+      "avgPriceLow": 29856, "avgPriceHigh": 31013, "villaPrice": 45106,
+      "onSale": "65-67套", "villaNote": "别墅口径45106（安居客2026-09）",
+      "rentRange": [5500, 15000], "rentNote": "281-700㎡ 整租",
+      "highlight": "本页主角；独栋挂牌2000-2200万",
+      "source": "贝壳/安居客/房天下"
+    },
+    {
+      "name": "清源上林湖", "area": "富阳·银湖", "district": "富阳区",
+      "avgPriceLow": 28812, "avgPriceHigh": 29856, "villaPrice": 24286,
+      "onSale": "150-165套", "villaNote": "北依午潮山森林公园；挂牌样本280㎡/680万",
+      "rentRange": [6000, 6000], "rentNote": "320㎡ 约6000/月",
+      "highlight": "银湖体量最大的别墅盘之一",
+      "source": "贝壳/房天下/安居客"
+    },
+    {
+      "name": "七里香溪别墅园", "area": "富阳·银湖科技城", "district": "富阳区",
+      "avgPriceLow": 53792, "avgPriceHigh": 54403, "villaPrice": 54403,
+      "onSale": "约50套", "villaNote": "绿城系，银湖单价天花板",
+      "rentRange": null, "rentNote": "公开租盘少",
+      "highlight": "绿城物业溢价明显",
+      "source": "链家/贝壳"
+    },
+    {
+      "name": "颐景山庄", "area": "富阳·银湖", "district": "富阳区",
+      "avgPriceLow": 14790, "avgPriceHigh": 20692, "villaPrice": 45698,
+      "onSale": "住宅65套/别墅约10套", "villaNote": "别墅口径45698-45884（2026-10）；住宅2023-06约41045→现1.5万级，回调深",
+      "rentRange": null, "rentNote": "—",
+      "highlight": "住宅与别墅价差极大",
+      "source": "安居客/贝壳/房天下"
+    },
+    {
+      "name": "富春红郡（排屋）", "area": "富阳·银湖", "district": "富阳区",
+      "avgPriceLow": 27400, "avgPriceHigh": 27400, "villaPrice": 27400,
+      "onSale": "—", "villaNote": "135㎡ 排屋约370万",
+      "rentRange": null, "rentNote": "—",
+      "highlight": "银湖入门级排屋",
+      "source": "挂牌聚合"
+    },
+    {
+      "name": "白马山庄", "area": "富阳", "district": "富阳区",
+      "avgPriceLow": 20601, "avgPriceHigh": 20601, "villaPrice": 20601,
+      "onSale": "—", "villaNote": "—",
+      "rentRange": null, "rentNote": "—",
+      "highlight": "—",
+      "source": "挂牌聚合"
+    },
+    {
+      "name": "众安理想湾（排屋）", "area": "富阳", "district": "富阳区",
+      "avgPriceLow": 36536, "avgPriceHigh": 36536, "villaPrice": 36536,
+      "onSale": "—", "villaNote": "—",
+      "rentRange": null, "rentNote": "—",
+      "highlight": "—",
+      "source": "挂牌聚合"
+    },
+    {
+      "name": "万科君望（东洲别墅）", "area": "富阳·东洲", "district": "富阳区",
+      "avgPriceLow": 18900, "avgPriceHigh": 18900, "villaPrice": 18900,
+      "onSale": "—", "villaNote": "258㎡ 挂牌约488万",
+      "rentRange": null, "rentNote": "—",
+      "highlight": "东洲一线江景板块",
+      "source": "挂牌聚合"
+    },
+    {
+      "name": "万科玖望（排屋）", "area": "富阳·东洲", "district": "富阳区",
+      "avgPriceLow": 27211, "avgPriceHigh": 27211, "villaPrice": 27211,
+      "onSale": "—", "villaNote": "一线江景排屋",
+      "rentRange": null, "rentNote": "—",
+      "highlight": "—",
+      "source": "挂牌聚合"
+    },
+    {
+      "name": "九溪玫瑰园", "area": "西湖·之江度假区", "district": "西湖区",
+      "avgPriceLow": 43587, "avgPriceHigh": 85877, "villaPrice": 85877,
+      "onSale": "—", "villaNote": "亚洲十大豪宅；2026-10法拍 630㎡ 2.88亿（45.7万/㎡）；去年成交14套·套均7600万",
+      "rentRange": null, "rentNote": "—",
+      "highlight": "杭州别墅单价天花板",
+      "source": "房天下/阿里资产/链家"
+    },
+    {
+      "name": "云栖蝶谷", "area": "西湖·之江度假区", "district": "西湖区",
+      "avgPriceLow": 39954, "avgPriceHigh": 78848, "villaPrice": 63533,
+      "onSale": "约16套", "villaNote": "挂牌样本：349㎡精装 6500万",
+      "rentRange": null, "rentNote": "—",
+      "highlight": "之江低密豪宅区",
+      "source": "链家/房天下/透明售房网"
+    },
+    {
+      "name": "庭院深深", "area": "余杭·闲林", "district": "余杭区",
+      "avgPriceLow": 15102, "avgPriceHigh": 17345, "villaPrice": 15102,
+      "onSale": "约167套", "villaNote": "金成江南春城组团；同比-7.15%",
+      "rentRange": null, "rentNote": "闲林区别墅租金约2万/月（桃源小镇隐庐534㎡）",
+      "highlight": "总价洼地·排屋为主",
+      "source": "房天下/百度百科"
+    },
+    {
+      "name": "良渚文化村·竹径茶语", "area": "余杭·良渚", "district": "余杭区",
+      "avgPriceLow": 54709, "avgPriceHigh": 54709, "villaPrice": 54709,
+      "onSale": "—", "villaNote": "良渚文化村高端组团",
+      "rentRange": [6000, 7600], "rentNote": "叠墅122.7㎡ 6000；下叠 7600",
+      "highlight": "良渚天花板",
+      "source": "链家/贝壳"
+    },
+    {
+      "name": "良渚文化村·堂前", "area": "余杭·良渚", "district": "余杭区",
+      "avgPriceLow": 39415, "avgPriceHigh": 39415, "villaPrice": 39415,
+      "onSale": "9套", "villaNote": "—",
+      "rentRange": null, "rentNote": "—",
+      "highlight": "—",
+      "source": "链家"
+    },
+    {
+      "name": "良渚文化村·七贤郡", "area": "余杭·良渚", "district": "余杭区",
+      "avgPriceLow": 18555, "avgPriceHigh": 18555, "villaPrice": 18555,
+      "onSale": "112套", "villaNote": "以洋房/小户型为主",
+      "rentRange": null, "rentNote": "—",
+      "highlight": "良渚入门",
+      "source": "链家"
+    },
+    {
+      "name": "白鹭郡西别墅", "area": "余杭·良渚", "district": "余杭区",
+      "avgPriceLow": 28081, "avgPriceHigh": 28081, "villaPrice": 28081,
+      "onSale": "售罄/二手少量", "villaNote": "370-600㎡",
+      "rentRange": [10500, 15000], "rentNote": "美丽洲252㎡ 10500；白云深处 15000",
+      "highlight": "—",
+      "source": "房天下/链家"
+    },
+    {
+      "name": "麒麟山庄", "area": "临安·青山湖", "district": "临安区",
+      "avgPriceLow": 39882, "avgPriceHigh": 43024, "villaPrice": 39882,
+      "onSale": "约9套", "villaNote": "欧洲传统建筑山地别墅；法拍 1145.81㎡ 成交2550万（约2.23万/㎡）",
+      "rentRange": null, "rentNote": "—",
+      "highlight": "一线湖景·法拍折价深",
+      "source": "链家/贝壳/司法拍卖"
+    },
+    {
+      "name": "青山湖玫瑰园", "area": "临安·青山湖", "district": "临安区",
+      "avgPriceLow": 42646, "avgPriceHigh": 42646, "villaPrice": 42646,
+      "onSale": "142套", "villaNote": "绿城独栋湖景别墅",
+      "rentRange": null, "rentNote": "—",
+      "highlight": "青山湖天花板",
+      "source": "链家/贝壳"
+    },
+    {
+      "name": "湘湖壹号", "area": "萧山·湘湖", "district": "萧山区",
+      "avgPriceLow": 32000, "avgPriceHigh": 33000, "villaPrice": 32600,
+      "onSale": "—", "villaNote": "481㎡法式独栋3950万起；排屋410-440㎡ 1800-3200万；板块成交两套2亿+",
+      "rentRange": null, "rentNote": "—",
+      "highlight": "湘湖豪宅标杆",
+      "source": "挂牌聚合/成交新闻"
+    },
+    {
+      "name": "通和十二橡树", "area": "余杭", "district": "余杭区",
+      "avgPriceLow": null, "avgPriceHigh": null, "villaPrice": null,
+      "onSale": "—", "villaNote": "—",
+      "rentRange": [4500, 4500], "rentNote": "211㎡ 4500/月",
+      "highlight": "租金样本",
+      "source": "租房聚合"
+    },
+    {
+      "name": "绿城和庐", "area": "杭州周边", "district": "—",
+      "avgPriceLow": null, "avgPriceHigh": null, "villaPrice": null,
+      "onSale": "—", "villaNote": "—",
+      "rentRange": [14000, 14000], "rentNote": "独栋带室内电梯 14000/月",
+      "highlight": "租金样本",
+      "source": "租房聚合"
+    }
+  ],
+  "rentSamples": [
+    { "community": "九龙山庄", "area": "富阳·银湖", "layout": "4室2厅", "areaSqm": 281.8, "rent": 5500 },
+    { "community": "九龙山庄", "area": "富阳·银湖", "layout": "5室2厅3卫", "areaSqm": 416, "rent": 8000 },
+    { "community": "九龙山庄", "area": "富阳·银湖", "layout": "4室2厅", "areaSqm": 416, "rent": 8000 },
+    { "community": "九龙山庄", "area": "富阳·银湖", "layout": "5室2厅3卫", "areaSqm": 426, "rent": 9000 },
+    { "community": "九龙山庄", "area": "富阳·银湖", "layout": "4室2厅3卫", "areaSqm": 371, "rent": 10000 },
+    { "community": "九龙山庄", "area": "富阳·银湖", "layout": "5室2厅(独栋700㎡)", "areaSqm": 700, "rent": 15000 },
+    { "community": "清源上林湖", "area": "富阳·银湖", "layout": "5室3厅2卫", "areaSqm": 320, "rent": 6000 },
+    { "community": "通和十二橡树", "area": "余杭", "layout": "5室2厅4卫", "areaSqm": 211, "rent": 4500 },
+    { "community": "绿城和庐", "area": "杭州周边", "layout": "独栋", "areaSqm": null, "rent": 14000 },
+    { "community": "竹径云山·沿山居(良渚文化村)", "area": "余杭·良渚", "layout": "4室1厅(上叠)", "areaSqm": 122.7, "rent": 6000 },
+    { "community": "良渚文化村(近西湖大学)", "area": "余杭·良渚", "layout": "3室2厅(下叠)", "areaSqm": null, "rent": 7600 },
+    { "community": "美丽洲别墅", "area": "余杭·良渚", "layout": "7室2厅", "areaSqm": 252, "rent": 10500 },
+    { "community": "白云深处别墅", "area": "余杭·良渚", "layout": "7室2厅", "areaSqm": null, "rent": 15000 },
+    { "community": "绿城桃源小镇隐庐", "area": "余杭·闲林", "layout": "6室2厅", "areaSqm": 534, "rent": 20000 },
+    { "community": "江南水乡别墅", "area": "余杭·闲林", "layout": "5室2厅4卫", "areaSqm": null, "rent": 20000 }
+  ],
+  "plateSummary": [
+    { "plate": "富阳·银湖", "mixedAvg": 19245, "note": "板块整体均价；地铁通联主城，改善属性强", "villas": ["九龙山庄", "清源上林湖", "七里香溪", "颐景山庄", "富春红郡"] },
+    { "plate": "富阳·东洲/富春", "mixedAvg": 23647, "note": "富春板块为富阳均价最高", "villas": ["万科君望", "万科玖望", "众安理想湾", "白马山庄"] },
+    { "plate": "西湖·之江度假区", "mixedAvg": 40813, "note": "西湖区均价；杭州顶级豪宅别墅区", "villas": ["九溪玫瑰园", "云栖蝶谷"] },
+    { "plate": "余杭·良渚", "mixedAvg": 27916, "note": "良渚板块整体；文化村组团分化大", "villas": ["竹径茶语", "堂前", "七贤郡", "白鹭郡西"] },
+    { "plate": "余杭·闲林", "mixedAvg": null, "note": "总价洼地，排屋为主", "villas": ["庭院深深"] },
+    { "plate": "临安·青山湖", "mixedAvg": 12850, "note": "临安整体均价；湖景别墅4万+为天花板", "villas": ["麒麟山庄", "青山湖玫瑰园"] },
+    { "plate": "萧山·湘湖", "mixedAvg": null, "note": "豪宅成交活跃，总价上限2亿+", "villas": ["湘湖壹号"] }
+  ]
+}

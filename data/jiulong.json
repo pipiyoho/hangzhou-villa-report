@@ -1,0 +1,68 @@
+{
+  "community": {
+    "name": "九龙山庄",
+    "address": "杭州市富阳区银湖街道九龙大道81号",
+    "district": "富阳区·银湖科技城板块",
+    "developer": "富阳浙电九龙房地产开发有限公司",
+    "builtYear": 2006,
+    "landArea": "约66.7万㎡（近千亩）",
+    "propertyType": "独栋别墅、排屋、花园洋房、公寓（混合型大盘）",
+    "property": "绿城物业",
+    "propertyYears": "70年",
+    "beikeUrl": "https://hz.ke.com/xiaoqu/1811043636184/",
+    "beikeXiaoquId": "1811043636184",
+    "followers": 191,
+    "groups": [
+      { "name": "瀛洲苑", "note": "用户重点关注组团；电力公告证实（浙电瀛洲苑4#公变），房产平台未单独建库，挂牌房源归入九龙山庄主小区" },
+      { "name": "丰泽苑", "note": "见于司法拍卖记录：丰泽苑2幢5号 起拍价230万" }
+    ]
+  },
+  "priceOverview": [
+    { "platform": "贝壳/链家", "scope": "全小区（混合口径）", "pricePerSqm": 31013, "date": "2026-10", "note": "参考均价，在售约65-67套" },
+    { "platform": "安居客", "scope": "别墅产品", "pricePerSqm": 45106, "date": "2026-09", "note": "环比+1.35%，同比-4.92%" },
+    { "platform": "安居客", "scope": "别墅产品", "pricePerSqm": 44507, "date": "2026-08", "note": "" },
+    { "platform": "房天下", "scope": "全小区", "pricePerSqm": 29856, "date": "2026-01", "note": "" },
+    { "platform": "安居客", "scope": "全小区（混合口径）", "pricePerSqm": 22700, "date": "2026-09", "note": "口径偏低，或以洋房/公寓为主" },
+    { "platform": "吉屋网", "scope": "全小区（混合口径）", "pricePerSqm": 21102, "date": "2025", "note": "" },
+    { "platform": "聚汇数据", "scope": "全小区", "pricePerSqm": 28632, "date": "2019", "note": "历史高位区间 28080-28632" }
+  ],
+  "priceHistory": [
+    { "date": "2019", "label": "2019年", "villa": null, "mixed": 28632, "note": "聚汇数据历史高位" },
+    { "date": "2023", "label": "2023年", "villa": null, "mixed": 29856, "note": "房天下参考均价（2026-01回溯口径）" },
+    { "date": "2025-09", "label": "2025年9月", "villa": 47436, "mixed": null, "note": "由2026-09同比-4.92%反推" },
+    { "date": "2026-08", "label": "2026年8月", "villa": 44507, "mixed": null, "note": "安居客别墅口径" },
+    { "date": "2026-09", "label": "2026年9月", "villa": 45106, "mixed": null, "note": "安居客别墅口径，环比+1.35%" },
+    { "date": "2026-10", "label": "2026年10月", "villa": null, "mixed": 31013, "note": "贝壳/链家全小区参考均价" }
+  ],
+  "saleListings": [
+    { "id": "S1", "type": "独栋别墅", "layout": "4室3厅", "areaSqm": 266, "totalWan": 1180, "pricePerSqm": 44361, "decoration": "毛坯", "feature": "花园集中朝南", "source": "链家/搜索聚合", "collectedAt": "2026-10-31" },
+    { "id": "S2", "type": "独栋别墅", "layout": "5室4厅", "areaSqm": 410.85, "totalWan": 2000, "pricePerSqm": 48680, "decoration": "精装", "feature": "朝南·满五·低容积率", "source": "房天下", "collectedAt": "2026-10-31" },
+    { "id": "S3", "type": "独栋别墅", "layout": "4室2厅", "areaSqm": 381.87, "totalWan": 2200, "pricePerSqm": 57604, "decoration": "精装", "feature": "带大花园·新上", "source": "二手房挂牌聚合", "collectedAt": "2026-10-31" },
+    { "id": "S4", "type": "别墅", "layout": "5室2厅", "areaSqm": null, "totalWan": null, "pricePerSqm": 48213, "decoration": "精装", "feature": "朝南·低楼层", "source": "贝壳", "collectedAt": "2026-10-31" },
+    { "id": "S5", "type": "别墅", "layout": null, "areaSqm": 234, "totalWan": null, "pricePerSqm": 38300, "decoration": null, "feature": "挂牌区间样本", "source": "挂牌聚合", "collectedAt": "2026-10-31" },
+    { "id": "S6", "type": "花园洋房", "layout": null, "areaSqm": 136, "totalWan": 240, "pricePerSqm": 17647, "decoration": null, "feature": "花园里·小洋楼", "source": "挂牌聚合", "collectedAt": "2026-10-31" },
+    { "id": "S7", "type": "花园洋房", "layout": null, "areaSqm": null, "totalWan": null, "pricePerSqm": 21034, "decoration": "简装", "feature": "花园里小洋楼别墅·2024-11挂牌", "source": "链家 m.lianjia.com/hz/ershoufang/103137710825.html", "collectedAt": "2026-10-31" }
+  ],
+  "rentListings": [
+    { "id": "R1", "type": "别墅整租", "layout": "4室2厅", "areaSqm": 281.8, "rentPerMonth": 5500, "feature": "朝南·可长租", "source": "房天下租房聚合", "collectedAt": "2026-10-31" },
+    { "id": "R2", "type": "别墅整租", "layout": "5室2厅3卫", "areaSqm": 416, "rentPerMonth": 8000, "feature": "富阳-富春", "source": "房天下租房聚合", "collectedAt": "2026-10-31" },
+    { "id": "R3", "type": "别墅整租", "layout": "4室2厅", "areaSqm": 416, "rentPerMonth": 8000, "feature": "南北朝向·整租", "source": "房天下租房聚合", "collectedAt": "2026-10-31" },
+    { "id": "R4", "type": "别墅整租", "layout": "5室2厅3卫", "areaSqm": 426, "rentPerMonth": 9000, "feature": "精装修·随时看房", "source": "房天下租房聚合", "collectedAt": "2026-10-31" },
+    { "id": "R5", "type": "别墅整租", "layout": "4室2厅3卫", "areaSqm": 371, "rentPerMonth": 10000, "feature": "朝南", "source": "房天下租房聚合", "collectedAt": "2026-10-31" },
+    { "id": "R6", "type": "独栋别墅", "layout": "5室2厅", "areaSqm": 700, "rentPerMonth": 15000, "feature": "花园水系独栋·全新装修·中央空调+地暖", "source": "房天下租房聚合", "collectedAt": "2026-10-31" }
+  ],
+  "auctionRecords": [
+    { "asset": "九龙山庄丰泽苑2幢5号", "startPriceWan": 230, "result": "0次出价（起拍价待确认是否成交）", "source": "淘宝司法拍卖", "date": "历史记录" },
+    { "asset": "银溪九龙一号·夏莲坊8-3号（九龙大道233号，同板块）", "priceWan": 630.5, "result": "成交/当前价", "source": "淘宝司法拍卖", "date": "历史记录" }
+  ],
+  "inventory": {
+    "beikeOnSale": "约65-67套（全小区，贝壳）",
+    "fangtxVillaOnSale": "约2套（房天下·别墅频道）",
+    "rentObservation": "公开可见整租挂牌约6套，主力租金 8千-1万/月"
+  },
+  "yingzhouNotes": [
+    "瀛洲苑是九龙山庄的内部组团（电力台账显示为“浙电瀛洲苑”，与开发商“富阳浙电九龙房地产”同源，推测为浙电系统相关组团）。",
+    "贝壳/链家等平台未将瀛洲苑单独建库，其挂牌与成交均并入“九龙山庄”主小区统计。",
+    "如需瀛洲苑逐套挂牌明细，可在贝壳App内按“九龙山庄”+房源标题/位置字段筛选组团名，或登录贝壳后由本调研补充采集。"
+  ]
+}
